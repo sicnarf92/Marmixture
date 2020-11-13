@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello maggle!{% endblock %}
+
+{% block body %}
+
+<section class="articles">
+
+    {% for recipe in recipes %}
+    <article>
+        <h2>{{ recipe.title }}</h2>
+        <div class="metadata">Ecrit le {{ recipe.createdAt | date('d/m/y')}} à {{ recipe.createdAt | date('H:i')}} dans la catégorie {{recipe.category.title}}</div>
+        <div class="content text-justify">
+            <img src="{{recipe.image}}" alt="">
+            {{ recipe.content | raw}}
+            <a href="{{ path('main_show', {'id': recipe.id})}}" class="btn btn-primary">lire la suite</a>
+        </div>
+    </article>
+{% endfor %}
+
+
+
+
+{% endblock %}

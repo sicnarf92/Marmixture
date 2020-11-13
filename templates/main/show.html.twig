@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<article>
+<h2>{{ recipe.title }}</h2>
+		<div class="metadata">Ecrit le
+			{{recipe.createdAt | date('d/m/Y') }}
+			à
+			{{recipe.createdAt | date('H:i') }}
+			dans la catégorie {{recipe.category.title}} 
+			</div>
+		<div class="content">
+			<img src=" {{recipe.image}}" alt="">
+			{{ recipe.content | raw}}
+		</div>
+</article>
+
+{% endblock %}
