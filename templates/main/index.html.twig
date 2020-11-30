@@ -4,21 +4,30 @@
 
 {% block body %}
 
-<section class="articles">
+<h1>Toutes les recettes</h1>
 
     {% for recipe in recipes %}
-    <article>
-        <h2>{{ recipe.title }}</h2>
-        <div class="metadata">Ecrit le {{ recipe.createdAt | date('d/m/y')}} à {{ recipe.createdAt | date('H:i')}} dans la catégorie {{recipe.category.title}}</div>
-        <div class="content text-justify">
-            <img src="{{recipe.image}}" alt="">
-            {{ recipe.content | raw}}
-            <a href="{{ path('main_show', {'id': recipe.id})}}" class="btn btn-primary">lire la suite</a>
-        </div>
-    </article>
+<div class="card mb-3  my-1">
+  <h3 class="card-header bg-warning">{{ recipe.title[0:20] }}</h3>
+     <img class="img-thumbnail" src="{{ recipe.image }}" alt="">
+  <div class="card-body">
+    <h6 class="card-subtitle text-muted">dans la catégorie {{recipe.category.title}}</h6>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{ recipe.content[0:300]| raw}}...</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+  </ul>
+  <div class="card-body ">
+                <a href="{{ path('main_show', {'id': recipe.id})}}" class="btn btn-warning">lire la suite</a>
+
+  </div>
+  <div class="card-footer text-muted">
+Ecrit le {{ recipe.createdAt | date('d/m/y')}} à {{ recipe.createdAt | date('H:i')}}  </div>
+</div>
+
 {% endfor %}
-
-
 
 
 {% endblock %}

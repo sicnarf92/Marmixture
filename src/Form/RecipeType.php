@@ -16,13 +16,12 @@ class RecipeType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('ingredients', EntityType::class,[
+                  'class' => Ingredient::class,
+                  'choice_label' => 'name',
+                  'multiple' =>true])
             ->add('content')
             ->add('image')
-            ->add('ingredients', EntityType::class, [
-                'class' => Ingredient::class,
-                'choice_label' => 'name',
-                'multiple' => true
-            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'title'

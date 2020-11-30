@@ -1,0 +1,56 @@
+{% extends 'base.html.twig'%}
+
+{% block title %}Rechercher un recipe{% endblock %}
+
+{% block body %}
+   
+<h1>Votre recherche</h1>
+<form action="{{ path('search')}}" method="GET">
+    <div class="form-group">
+    {% form_theme searchForm 'bootstrap_4_layout.html.twig' %}
+    {{ form_start(searchForm) }}
+    {{ form_row(searchForm.name, {'label': " ", 'attr': {'placeholder': 'mot clé...'}}) }}
+    <button type="submit" class="btn btn-primary">rechercher</button>
+    {{ form_end(searchForm) }}
+</form>
+    
+
+    <section id="content">
+{% if recipes is defined %}
+            {% for recipe in recipes %}
+            <article>
+            <div class="card border-light mb-3" id="recipesRecents" style="max-width: 25rem;margin:1.5em;">
+                <div class="card-header">
+
+                   <h3>{{ recipe.title }}</h3>
+
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">Ecrit le {{ recipe.createdAt | date('d/m/Y') }} à {{ recipe.createdAt | date('H:i') }} dans la catégorie {{ recipe.category.title }}</h4>
+                  <p class="card-text">
+
+                      {{ recipe.content | slice(0, 170) | raw }} ...
+                    
+                    </p>
+                    <a href="{{ path('main_show', {'id': recipe.id}) }}" class="btn btn-primary">Lire la suite</a>
+                </div>
+              </div>
+            </article>
+        {% endfor %}
+        {% else %}
+        Pas de recipes 
+        {% endif %}
+
+        </section>
+
+        
+            <div class="pagination">
+            {% if recipes is defined %}
+
+              {{ knp_pagination_render(recipes) }}
+           </div>
+              {% else %}
+        Pas de recipes 
+        {% endif %}
+
+{% endblock %}

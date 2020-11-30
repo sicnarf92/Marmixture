@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Ingredient;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
@@ -16,21 +18,25 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("recipe:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("recipe:read")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("recipe:read")
      */
     private $author;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("recipe:read")
      */
     private $content;
 
@@ -41,6 +47,7 @@ class Recipe
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("recipe:read")
      */
     private $createdAt;
 
@@ -56,9 +63,16 @@ class Recipe
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=ingredient::class, inversedBy="recipes")
+     * @Groups("recipe:read")
+     */
+    private $ingredients;
+
+
 
     public function __construct()
     {
@@ -185,4 +199,32 @@ class Recipe
 
         return $this;
     }
+
+
+
+
+    /**
+     * @return Collection|ingredient[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(ingredient $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(ingredient $ingredient): self
+    {
+        $this->ingredients->removeElement($ingredient);
+
+        return $this;
+    }
+
 }

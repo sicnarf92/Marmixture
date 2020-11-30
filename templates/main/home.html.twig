@@ -1,8 +1,29 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-<h1>page d'accueil</h1>
-<p>Bienvenue sur Marmixture</p>
-<p>voici 9 recetes au hasard</p>
+<h2>Dernières recettes de nos contributeurs...</h2>
+<div class="d-flex flex-row ">
+{% for recipe in recipes[-3:] %}
+<div class="card mb-3 col-xl-4 col-12 mx-1">
+    <h6 class="card-subtitle text-muted">dans la catégorie {{recipe.category.title}}</h6>
+     <img class="img-thumbnail" src="https://via.placeholder.com/250" alt="">
+  <h3 class="card-header bg-warning">{{ recipe.title[0:25] }}</h3>
+  <div class="card-body">
+    <p class="card-text">{{ recipe.content[0:120]| raw}}...</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+  </ul>
+  <div class="card-body text-center">
+                <a href="{{ path('main_show', {'id': recipe.id})}}" class="btn btn-warning">lire la suite</a>
+  </div>
+  <div class="card-footer text-muted">
+Ecrit le {{ recipe.createdAt | date('d/m/y')}} à {{ recipe.createdAt | date('H:i')}}  </div>
+</div>
 
+{% endfor %}
+</div>
+<div  class="text-center">
+<a href="{{ path('main')}}" class="btn btn-primary">Toutes les recettes</a>
+</div>
 {% endblock %}
